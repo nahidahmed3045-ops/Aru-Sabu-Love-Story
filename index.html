@@ -21,16 +21,20 @@
             padding: 20px;
             text-align: center;
             color: #333;
+            overflow: hidden;
+            position: relative;
         }
 
         .card {
             background: rgba(255, 255, 255, 0.95);
-            padding: 35px 25px;
+            padding: 30px 20px;
             border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             max-width: 420px;
             width: 100%;
             animation: fadeIn 0.8s ease-in-out;
+            position: relative;
+            z-index: 10;
         }
 
         @keyframes fadeIn {
@@ -38,9 +42,19 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .icon {
-            font-size: 60px;
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff4081;
             margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 10px;
             animation: pulse 1.5s infinite alternate;
         }
 
@@ -50,34 +64,37 @@
 
         h1 {
             color: #d81b60;
-            font-size: 24px;
+            font-size: 22px;
             line-height: 1.5;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .btn-group {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            justify-content: center;
+            gap: 20px;
+            min-height: 60px;
+            align-items: center;
         }
 
         .option-btn {
             background-color: #ffe0ec;
             color: #d81b60;
             border: 2px solid #ff80ab;
-            padding: 14px 20px;
-            font-size: 16px;
+            padding: 12px 26px;
+            font-size: 18px;
             font-weight: bold;
             border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            position: absolute;
+            user-select: none;
         }
 
-        .option-btn:hover {
+        #yes-btn {
             background-color: #ff4081;
             color: white;
             border-color: #ff4081;
-            transform: translateY(-2px);
         }
 
         #anniversary-card {
@@ -85,19 +102,25 @@
         }
 
         .anniversary-title {
-            font-size: 28px;
+            font-size: 26px;
             color: #e91e63;
             margin-bottom: 15px;
         }
 
         .anniversary-text {
-            font-size: 18px;
+            font-size: 17px;
             color: #444;
             line-height: 1.6;
         }
 
         .hearts-bg {
-            font-size: 40px;
+            font-size: 35px;
+            margin-top: 15px;
+        }
+
+        .hint-text {
+            font-size: 13px;
+            color: #888;
             margin-top: 15px;
         }
     </style>
@@ -107,29 +130,72 @@
     <!-- ১ম কার্ড: প্রশ্ন -->
     <div class="card" id="question-card">
         <div class="icon">🤔💭</div>
-        <h1>আমাদের আজকে কি তা কি তোমার জানা আছে?🤔</h1>
-        <div class="btn-group">
-            <button class="option-btn" onclick="revealAnniversary()">হ্যাঁ, খুব ভালো করেই জানি! 🥰</button>
-            <button class="option-btn" onclick="revealAnniversary()">উম্মম... একটু ভুলে গেছি 😜</button>
-            <button class="option-btn" onclick="revealAnniversary()">তুমিই বলে দাও! ❤️</button>
+        <h1>আমাদের আজকে কি তা কি তোমার জানা আছে?</h1>
+        <div class="btn-group" id="btn-container">
+            <button class="option-btn" id="yes-btn" onclick="handleYesClick()" onmouseover="moveYesButton()" ontouchstart="moveYesButton()">হ্যাঁ 🥰</button>
+            <button class="option-btn" id="no-btn" onmouseover="moveNoButton()" ontouchstart="moveNoButton()">না 😜</button>
         </div>
+        <p class="hint-text" id="click-count-text">ক্লিক সংখ্যা: 0/10</p>
     </div>
 
-    <!-- ২য় কার্ড: উত্তর/অ্যানিভার্সারি শুভেচ্ছা -->
+    <!-- ২য় কার্ড: উত্তর ও আপনাদের ছবি -->
     <div class="card" id="anniversary-card">
-        <div class="icon">🎉👩‍❤️‍👨✨</div>
-        <h1 class="anniversary-title">হ্যাপি ৩ মাসের অ্যানিভার্সারি! 🤗❤️</h1>
+        <!-- এখানে আপনাদের ছবির ডিরেক্ট লিংক বসাবেন -->fbl
+        <img src="https://i.imgur.com/sample.jpg" alt="Our Picture" class="profile-img">
+        https://www.facebook.com/61590649124205/posts/122142166707354970/?app=fbl
+        <h1 class="anniversary-title">হ্যাপি ৩ মাস অ্যানিভার্সারি! 🤗❤️</h1>
         <p class="anniversary-text">
-            আজকে আমাদের বিয়ের ৩ মাস পূর্ণ হলো! 💖<br>
-            প্রতিটা মুহূর্ত তোমার সাথে কাটাতে পেরে আমি সত্যি অনেক ভাগ্যবান। এভাবেই সারাজীবন একসাথে পাশে থেকো! 🥰✨
+            আজকে আমাদের ভালোবাসার ৩ মাস পূর্ণ হলো! 💖<br>
+            প্রতিটা দিন তোমার সাথে কাটাতে পেরে আমি সত্যি অনেক ভাগ্যবান। এভাবেই সারাজীবন একসাথে পাশে থেকো! 🥰✨
         </p>
         <div class="hearts-bg">💖🌸💍🌹🥂</div>
     </div>
 
     <script>
-        function revealAnniversary() {
-            document.getElementById('question-card').style.display = 'none';
-            document.getElementById('anniversary-card').style.display = 'block';
+        let yesClickCount = 0;
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const countText = document.getElementById('click-count-text');
+
+        window.onload = () => {
+            resetButtons();
+        };
+
+        function resetButtons() {
+            yesBtn.style.left = '30%';
+            yesBtn.style.top = '70%';
+            noBtn.style.left = '60%';
+            noBtn.style.top = '70%';
+        }
+
+        function moveNoButton() {
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 60);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+
+        function moveYesButton() {
+            if (yesClickCount < 9) {
+                const x = Math.random() * (window.innerWidth - 120);
+                const y = Math.random() * (window.innerHeight - 60);
+                yesBtn.style.position = 'fixed';
+                yesBtn.style.left = `${x}px`;
+                yesBtn.style.top = `${y}px`;
+            }
+        }
+
+        function handleYesClick() {
+            yesClickCount++;
+            countText.innerText = `ক্লিক সংখ্যা: ${yesClickCount}/10`;
+
+            if (yesClickCount < 10) {
+                moveYesButton();
+            } else {
+                document.getElementById('question-card').style.display = 'none';
+                document.getElementById('anniversary-card').style.display = 'block';
+            }
         }
     </script>
 
